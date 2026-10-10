@@ -1,0 +1,15 @@
+.git
+.github
+node_modules
+.env
+.env.*
+!.env.example
+data
+coverage
+logs
+*.log
+work
+src
+tests
+docs
+lavalink

@@ -1,0 +1,93 @@
+# Lavalink 4.2.2 / Java 17+, with Discord DAVE support.
+# Put this file in the Lavalink working directory, not the Node.js bot's directory.
+# Values in ${...} are resolved from the Lavalink service's environment.
+server:
+  port: ${SERVER_PORT:2333}
+  address: 0.0.0.0
+  http2:
+    enabled: false
+
+lavalink:
+  plugins:
+    - dependency: dev.lavalink.youtube:youtube-plugin:1.18.2
+      snapshot: false
+    - dependency: com.github.topi314.lavasrc:lavasrc-plugin:4.8.3
+      snapshot: false
+  server:
+    password: "${LAVALINK_PASSWORD}"
+    sources:
+      youtube: false
+      soundcloud: true
+      bandcamp: false
+      twitch: false
+      vimeo: false
+      nico: false
+      http: false
+      local: false
+    soundcloudSearchEnabled: true
+    soundcloudFilterOutPreviewTracks: true
+    youtubeSearchEnabled: true
+    youtubePlaylistLoadLimit: 2
+    playerUpdateInterval: 5
+    bufferDurationMs: 400
+    frameBufferDurationMs: 5000
+    opusEncodingQuality: 5
+    resamplingQuality: LOW
+    trackStuckThresholdMs: 10000
+    useSeekGhosting: true
+    gc-warnings: true
+
+plugins:
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIds: false
+    allowDirectPlaylistIds: false
+    clients:
+      - MUSIC
+      - ANDROID_VR
+      - WEB
+      - WEBEMBEDDED
+  lavasrc:
+    providers:
+      - 'ytsearch:"%ISRC%"'
+      - 'ytsearch:%QUERY%'
+    sources:
+      spotify: true
+      applemusic: false
+      deezer: false
+      yandexmusic: false
+      flowerytts: false
+      youtube: false
+      vkmusic: false
+      tidal: false
+      qobuz: false
+      ytdlp: false
+      jiosaavn: false
+    spotify:
+      clientId: "${SPOTIFY_CLIENT_ID:}"
+      clientSecret: "${SPOTIFY_CLIENT_SECRET:}"
+      countryCode: VN
+      playlistLoadLimit: 2
+      albumLoadLimit: 2
+      resolveArtistsInSearch: false
+      localFiles: false
+      preferPartnerApi: false
+      # Some Spotify-generated playlists need a compatible token service.
+      # Configure your own endpoint and uncomment only if needed:
+      # customTokenEndpoint: "${SPOTIFY_TOKEN_ENDPOINT}"
+
+metrics:
+  prometheus:
+    enabled: false
+
+logging:
+  level:
+    root: INFO
+    lavalink: INFO
+  request:
+    enabled: false
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 3

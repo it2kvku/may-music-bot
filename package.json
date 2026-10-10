@@ -1,0 +1,31 @@
+{
+  "name": "may-music-bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mây Music — Discord music bot for YouTube, SoundCloud and Spotify, ready for BotKeep",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm test && npm run build",
+    "register": "node dist/register.js",
+    "doctor": "node dist/doctor.js"
+  },
+  "dependencies": {
+    "discord.js": "14.27.0",
+    "dotenv": "^18.0.7",
+    "shoukaku": "4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.3"
+  }
+}

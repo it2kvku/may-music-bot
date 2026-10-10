@@ -1,0 +1,44 @@
+# Local machine / VPS only. Botkeep uses two separate workload profiles;
+# see docs/BOTKEEP.md. Do not upload .env to a public repository.
+services:
+  lavalink:
+    image: ghcr.io/lavalink-devs/lavalink:4.2.2
+    restart: unless-stopped
+    environment:
+      SERVER_PORT: 2333
+      LAVALINK_PASSWORD: ${LAVALINK_PASSWORD:?Set LAVALINK_PASSWORD in .env}
+      SPOTIFY_CLIENT_ID: ${SPOTIFY_CLIENT_ID:-}
+      SPOTIFY_CLIENT_SECRET: ${SPOTIFY_CLIENT_SECRET:-}
+      JAVA_TOOL_OPTIONS: -Xms128m -Xmx512m
+    volumes:
+      - ./lavalink/application.yml:/opt/Lavalink/application.yml:ro
+      - lavalink-plugins:/opt/Lavalink/plugins
+    ports:
+      - 127.0.0.1:2333:2333
+    mem_limit: 1g
+
+  bot:
+    build: .
+    restart: unless-stopped
+    init: true
+    depends_on:
+      - lavalink
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      LAVALINK_URL: lavalink:2333
+      LAVALINK_SECURE: "false"
+      DATA_DIR: /app/data
+      ENABLE_HEALTH_SERVER: "true"
+      PORT: 3000
+      SERVER_PORT: 3000
+    volumes:
+      - bot-data:/app/data
+    ports:
+      - 127.0.0.1:3000:3000
+    mem_limit: 512m
+
+volumes:
+  bot-data:
+  lavalink-plugins:
